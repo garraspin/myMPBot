@@ -12,14 +12,14 @@ var search = function(query, page, postcode){
             reject('no query term provided!');
         } else {
             var url = SEARCH_URL.replace(/API_TOKEN/, TOKEN).replace(/QUERY/, query).replace(/OFFSET/, offset).replace(/LIMIT/, LIMIT).replace(/FILTER_POSTCODE/, postcode || '')
-            console.log(JSON.stringify(url));
+            console.log(url);
             request(url)
                 .then(function(data){
                     data = JSON.parse(data);
                     resolve({
                         totalResults: data.totalCount,
                         results: data._embedded["mp:search-result"].map(function(result){
-                            console.log("result: " + result);
+                            console.log("result: " + JSON.stringify(result))
 
                             return {
                                 link: 'http://link.marktplaats.nl/' + result.itemId,
