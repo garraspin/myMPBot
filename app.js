@@ -87,6 +87,7 @@ app.get('/', function(req, res){
 app.post('/webhook', function (req, res) {
   var data = req.body;
 
+console.log('data', JSON.stringify(data));
   // Make sure this is a page subscription
   if (data.object == 'page') {
     // Iterate over each entry
@@ -97,17 +98,34 @@ app.post('/webhook', function (req, res) {
 
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function(messagingEvent) {
+
+console.log('messaging event', messagingEvent);
+
         if (messagingEvent.optin) {
+
+console.log('action:', 'optin');
           receivedAuthentication(messagingEvent);
         } else if (messagingEvent.message) {
+
+console.log('action:', 'message');
           receivedMessage(messagingEvent);
         } else if (messagingEvent.delivery) {
+
+console.log('action:', 'delivery');
           receivedDeliveryConfirmation(messagingEvent);
         } else if (messagingEvent.postback) {
+
+console.log('action:', 'postback');
           receivedPostback(messagingEvent);
         } else if (messagingEvent.read) {
+
+
+console.log('action:', 'read');
           receivedMessageRead(messagingEvent);
         } else if (messagingEvent.account_linking) {
+
+
+console.log('action:', 'account_linking');
           receivedAccountLink(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ", messagingEvent);
@@ -120,6 +138,8 @@ app.post('/webhook', function (req, res) {
     // You must send back a 200, within 20 seconds, to let us know you've 
     // successfully received the callback. Otherwise, the request will time out.
     res.sendStatus(200);
+  } else {
+    res.send('something went wrong: data.object is not "page"', data);
   }
 });
 
