@@ -20,6 +20,7 @@ var search = function(query, categoryId, page, postcode){
                     data = JSON.parse(data);
                     resolve({
                         totalResults: data.totalCount,
+                        url: url,
                         results: data._embedded["mp:search-result"].map(function(result){
                             return {
                                 link: 'http://link.marktplaats.nl/' + result.itemId,
