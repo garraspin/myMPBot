@@ -24,7 +24,8 @@ var awaitingPicture = 0,
     awaitingDescription = 0,
     awaitingTitle = 0,
     syiTitle = '',
-    syiDescription = '';
+    syiDescription = '',
+    syiPrice;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -300,6 +301,11 @@ function receivedMessage(event) {
       return;
     }
 
+    if(messageText && awaitingPrice){
+      onPriceProvided(senderID, messageText);
+      return;
+    }
+
     switch (messageText) {
       case 'image':
         sendImageMessage(senderID);
@@ -388,11 +394,26 @@ function onDescriptionProvided(senderID, messageText) {
 function onTitleProvided(senderID, messageText) {
     awaitingTitle = 0;
     syiTitle = messageText;
+    awaitingPrice = 1;
     sendTextMessage(senderID, "Perfect!");
     sendTypingOn(senderID);
     sendTypingOff(senderID);
     sendTypingOn(senderID);
     sendTextMessage(senderID, "We're almost there...how much does it cost?");
+}
+
+function onPriceProvided(senderID, messageText) {
+    syiPrice = messageText;
+    awaitingPrice = 0;
+    sendButtonMessage(senderID, "I think that's a fair price...shall we publish it?", [{
+        "type":"postback",
+        "title":"YES! Let's do it!",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD"
+      }, {
+        "type":"postback",
+        "title":"No, I changed my mind",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD_CANCELAD"
+      }]);
 }
 /*
  * Delivery Confirmation Event
@@ -442,6 +463,18 @@ function receivedPostback(event) {
   if(payload === 'DEVELOPER_DEFINED_PAYLOAD_FOR_SYI'){
     sendTextMessage(senderID, "You want to sell something? Great! Start by uploading a picture");
     awaitingPicture = 1;
+    return;
+  }
+
+  if(payload === 'DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD'){
+    //publish here
+    sendTextMessage(senderID, "do publish");
+    return;
+  }
+
+  if(payload === 'DEVELOPER_DEFINED_PAYLOAD_CANCELAD'){
+    //Cancel here
+    sendTextMessage(senderID, "do cancel");
     return;
   }
 
@@ -620,7 +653,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
  * Send a button message using the Send API.
  *
  */
-function sendButtonMessage(recipientId) {
+function sendButtonMessage(recipientId, message, buttons) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -630,8 +663,8 @@ function sendButtonMessage(recipientId) {
         type: "template",
         payload: {
           template_type: "button",
-          text: "This is test text",
-          buttons:[{
+          text: message || "This is test text",
+          buttons: buttons || [{
             type: "web_url",
             url: "https://www.oculus.com/en-us/rift/",
             title: "Open Web URL"
