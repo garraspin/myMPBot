@@ -262,7 +262,7 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     if(messageText.indexOf("search: ") === 0){
-      sendMp(senderId, messageText);
+      sendMp(senderID, messageText);
       return;
     }
 
