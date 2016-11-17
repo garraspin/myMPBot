@@ -268,7 +268,7 @@ function receivedMessage(event) {
 
     switch (messageText) {
       case 'mp':
-        sendMp(senderID);
+        sendMp(senderID, );
         break;
       case 'image':
         sendImageMessage(senderID);
@@ -584,11 +584,16 @@ function sendButtonMessage(recipientId) {
 }
 
 function sendMp(recipientId, message){
+  console.log('search for: ', message);
   sendTypingOn(recipientId);
-  searchApi.search(message.replace('search: ', '')).then(function(data){
+  try {
+  searchApi.search((message || 'auto').replace('search: ', '')).then(function(data){
     sendTypingOff(recipientId);
     sendTextMessage(recipientId, 'I found ' + data.totalResults);
   });
+  } catch(e) {
+    console.error(e);
+  }
 }
 /*
  * Send a Structured Message (Generic Message type) using the Send API.
