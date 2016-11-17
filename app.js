@@ -600,7 +600,8 @@ function sendMp(recipientId, message){
           buttons: [{
             type: "web_url",
             url: "http://www.marktplaats.nl/asq.html?itemId=" + result.id,
-            title: "ASQ"
+            title: "ASQ",
+            "webview_height_ratio": "compact"
           }],
         }
     });
