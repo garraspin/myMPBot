@@ -25,9 +25,13 @@ var publish = function(title, description, imageUrl, price, categoryId){
                 }
             })
         }).then(function(data){
+            console.log('item published:', data);
             publishPicture(data.itemId, imageUrl).then(function(){
-                console.log('publish picture:', imageUrl, data.itemId);
+                console.log('before publish picture:', imageUrl, data.itemId);
                 resolve(data);
+            }).catch(function(e){
+                console.error(e);
+                reject(e);
             });
         }).catch(function(e){
             console.log('something went wrong', e);
@@ -50,8 +54,10 @@ var publishPicture = function(id, imageUrl){
                 "replaceAll": true
             })
         }).then(function(data){
+            console.log('publish picture:', data);
             resolve('OK')
         }).catch(function(e){
+            console.error('publishing picture', e);
             reject(e)
         });
     });
