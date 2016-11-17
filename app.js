@@ -267,6 +267,20 @@ function receivedMessage(event) {
     return;
   }
 */
+  if(quickReply && quickReply.payload){
+    if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD'){
+      //publish here
+      sendTextMessage(senderID, "do publish");
+      return;
+    }
+
+    if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_CANCELAD'){
+      //Cancel here
+      sendTextMessage(senderID, "do cancel");
+      return;
+    }
+  }
+
   if (messageText) {
 
     // If we receive a text message, check to see if it matches any special
