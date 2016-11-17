@@ -72,6 +72,10 @@ app.get('/webhook', function(req, res) {
   }  
 });
 
+app.get('/', function(req, res){
+  res.send('mympbot');
+});
+
 
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
