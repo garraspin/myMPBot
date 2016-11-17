@@ -693,7 +693,7 @@ function sendPublishButton(recipientId) {
         },
         {
           "content_type":"text",
-          "title": "No, I changed my mind",
+          "title": "Uhm, no",
           "payload": "DEVELOPER_DEFINED_PAYLOAD_CANCELAD"
         }
       ]
