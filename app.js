@@ -273,7 +273,27 @@ function receivedMessage(event) {
     if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD'){
       //publish here
       publishApi(syiTitle, syiDescription, pictureUrl, syiPrice).then(function(data){
-        sendTextMessage(senderID, 'Here\'s your ad!' + data._links['mp:advertisement-website-link'].href);
+        var messageData = {
+            recipient: {
+              id: senderID
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "Your ad is published!",
+                  buttons:[{
+                    type: "web_url",
+                    url: data._links['mp:advertisement-website-link'].href,
+                    title: 'Ga naar jouw advertentie'
+                  }]
+                }
+              }
+            }
+          };
+
+          callSendAPI(messageData);
       }).catch(function(e){
         sendTextMessage(senderID, 'Ouch! Something went wrong: ' + e);
       })
