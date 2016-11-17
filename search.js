@@ -30,7 +30,7 @@ var search = function(query, page, postcode){
                                 location: result.location ? result.location.cityName : '',
                                 price: result.priceModel ? result.priceModel.askingPrice : 0,
                                 id: result.itemId,
-                                phoneNumber: result.phoneNumber || ''
+                                categoryId: result.categoryId
                             }
                         })
                     });

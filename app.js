@@ -262,7 +262,7 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     if(messageText.indexOf("search: ") === 0){
-      sendMp(senderID, messageText);
+      sendMp(senderID, messageText, metadata);
       return;
     }
 
@@ -580,8 +580,9 @@ function sendButtonMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-function sendMp(recipientId, message){
+function sendMp(recipientId, message, metadata){
   console.log('search for: ', message);
+  console.log('metadata: ', metadata);
   sendTypingOn(recipientId);
   try {
   var query = message.replace('search: ', '');
@@ -601,15 +602,8 @@ function sendMp(recipientId, message){
             url: "http://www.marktplaats.nl/asq.html?itemId=" + result.id,
             title: "Stuur een bericht",
             "webview_height_ratio": "compact"
-          }
-          // ,
-          //   {
-          //     "type":"phone_number",
-          //     "title":"Bellen",
-          //     "payload": result.phoneNumber
-          //   }
-          ],
-        }
+          }]
+      }
     });
     var messageData = {
       recipient: {
@@ -622,7 +616,8 @@ function sendMp(recipientId, message){
             template_type: "generic",
             elements: items
           }
-        }
+        },
+        metadata: metadata
       }
     };
     callSendAPI(messageData);
