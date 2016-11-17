@@ -587,9 +587,11 @@ function sendMp(recipientId, message){
   console.log('search for: ', message);
   sendTypingOn(recipientId);
   try {
-  searchApi.search((message || 'auto').replace('search: ', '')).then(function(data){
+  var query = message.replace('search: ', '');
+  searchApi.search(query).then(function(data){
     sendTypingOff(recipientId);
-    sendTextMessage(recipientId, 'I found ' + data.totalResults);
+
+    sendTextMessage(recipientId, 'Er zijn ' + data.totalResults + " op Marktplaats. Ga naar Marktplaats om alles te bekijken. http://www.marktplaats.nl/z.html?query=" + encodeURI(query));
 
     var items = data.results.map(function(result){
       return {
@@ -600,7 +602,7 @@ function sendMp(recipientId, message){
           buttons: [{
             type: "web_url",
             url: "http://www.marktplaats.nl/asq.html?itemId=" + result.id,
-            title: "ASQ",
+            title: "Stuur een bericht",
             "webview_height_ratio": "compact"
           }],
         }
