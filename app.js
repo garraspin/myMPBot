@@ -17,8 +17,9 @@ const
   express = require('express'),
   https = require('https'),  
   request = require('request'),
-  searchApi = require('./search'),
-  awaitingPicture = 0;
+  searchApi = require('./search');
+
+var awaitingPicture = 0;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
