@@ -601,12 +601,13 @@ function sendMp(recipientId, message){
             url: "http://www.marktplaats.nl/asq.html?itemId=" + result.id,
             title: "Stuur een bericht",
             "webview_height_ratio": "compact"
-          },
-            {
-              "type":"phone_number",
-              "title":"Bellen",
-              "payload": result.phoneNumber
-            }
+          }
+          // ,
+          //   {
+          //     "type":"phone_number",
+          //     "title":"Bellen",
+          //     "payload": result.phoneNumber
+          //   }
           ],
         }
     });

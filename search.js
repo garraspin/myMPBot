@@ -12,7 +12,7 @@ var search = function(query, page, postcode){
             reject('no query term provided!');
         } else {
             var url = SEARCH_URL.replace(/API_TOKEN/, TOKEN).replace(/QUERY/, query).replace(/OFFSET/, offset).replace(/LIMIT/, LIMIT).replace(/FILTER_POSTCODE/, postcode || '')
-            console.log(url);
+            console.log(JSON.stringify(url));
             request(url)
                 .then(function(data){
                     data = JSON.parse(data);
