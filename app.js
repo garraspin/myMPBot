@@ -286,7 +286,7 @@ function receivedMessage(event) {
                   buttons:[{
                     type: "web_url",
                     url: data._links['mp:advertisement-website-link'].href,
-                    title: 'Ga naar jouw advertentie'
+                    title: 'Ga ervoor!'
                   }]
                 }
               }
