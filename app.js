@@ -268,7 +268,7 @@ function receivedMessage(event) {
 
     switch (messageText) {
       case 'mp':
-        sendMp(senderId);
+        sendMp(senderID);
         break;
       case 'image':
         sendImageMessage(senderID);
