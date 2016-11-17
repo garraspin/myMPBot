@@ -262,6 +262,9 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     switch (messageText) {
+      case 'mp':
+        sendMp(senderId);
+        break;
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -580,6 +583,11 @@ function sendButtonMessage(recipientId) {
  *
  */
 function sendGenericMessage(recipientId) {
+  sendTypingOn(recipientId);
+  searchApi.search('fiets').then(function(data){
+    sendTypingOff(recipientId);
+    sendTextMessage(recipientId, 'I found ' + data.totalResults);
+  });
   var messageData = {
     recipient: {
       id: recipientId
