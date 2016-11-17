@@ -20,7 +20,7 @@ const
   searchApi = require('./search');
 
 var awaitingPicture = 0,
-    pictureUrl = null;
+    pictureUrl = null,
     awaitingDescription = 0,
     awaitingTitle = 0,
     syiTitle = '',
