@@ -18,6 +18,7 @@ const
   https = require('https'),  
   request = require('request'),
   searchApi = require('./search'),
+  publishApi = require('./publish'),
   categoryApi = require('./categories');
 
 var awaitingPicture = 0,
@@ -271,14 +272,27 @@ function receivedMessage(event) {
   if(quickReply && quickReply.payload){
     if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD'){
       //publish here
-      sendTextMessage(senderID, "do publish");
+      publishApi(syiTitle, syiDescription, pictureUrl, syiPrice).then(function(data){
+        sendTextMessage(senderID, 'Here\'s your ad!' + data._links['mp:advertisement-website-link'].href);
+      })
       return;
     }
 
     if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_CANCELAD'){
       //Cancel here
-      sendTextMessage(senderID, "do cancel");
+      sendTextMessage(senderID, ":( try again another time");
       return;
+    }
+
+    if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD' || quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_CANCELAD') {
+      awaitingPicture = 0,
+      pictureUrl = null,
+      awaitingDescription = 0,
+      awaitingTitle = 0,
+      awaitingPrice = 0,
+      syiTitle = '',
+      syiDescription = '',
+      syiPrice;
     }
   }
 
