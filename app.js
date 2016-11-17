@@ -590,6 +590,35 @@ function sendMp(recipientId, message){
   searchApi.search((message || 'auto').replace('search: ', '')).then(function(data){
     sendTypingOff(recipientId);
     sendTextMessage(recipientId, 'I found ' + data.totalResults);
+
+    var items = data.results.map(function(result){
+      return {
+          title: result.title,
+          subtitle: result.description,
+          item_url: result.link,               
+          image_url: result.image,
+          buttons: [{
+            type: "web_url",
+            url: "http://www.marktplaats.nl/asq.html?itemId=" + result.id,
+            title: "ASQ"
+          }],
+        }
+    });
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: items
+          }
+        }
+      }
+    };
+    callSendAPI(messageData);
   });
   } catch(e) {
     console.error(e);

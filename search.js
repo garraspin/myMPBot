@@ -26,7 +26,8 @@ var search = function(query, page, postcode){
                                 description: result.description,
                                 //sellerName: result.seller ? result.seller.sellerName : '????',
                                 location: result.location ? result.location.cityName : '',
-                                price: result.priceModel ? result.priceModel.askingPrice : 0
+                                price: result.priceModel ? result.priceModel.askingPrice : 0,
+                                id: result.itemId
                             }
                         })
                     });
