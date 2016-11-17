@@ -19,6 +19,8 @@ var search = function(query, page, postcode){
                     resolve({
                         totalResults: data.totalCount,
                         results: data._embedded["mp:search-result"].map(function(result){
+                            console.log("result: " + result);
+
                             return {
                                 link: 'http://link.marktplaats.nl/' + result.itemId,
                                 image: result._embedded["mp:advertisement-image"].medium.href,
@@ -27,7 +29,8 @@ var search = function(query, page, postcode){
                                 //sellerName: result.seller ? result.seller.sellerName : '????',
                                 location: result.location ? result.location.cityName : '',
                                 price: result.priceModel ? result.priceModel.askingPrice : 0,
-                                id: result.itemId
+                                id: result.itemId,
+                                phoneNumber: result.phoneNumber || ''
                             }
                         })
                     });

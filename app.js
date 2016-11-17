@@ -267,9 +267,6 @@ function receivedMessage(event) {
     }
 
     switch (messageText) {
-      case 'mp':
-        sendMp(senderID, messageText);
-        break;
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -604,7 +601,13 @@ function sendMp(recipientId, message){
             url: "http://www.marktplaats.nl/asq.html?itemId=" + result.id,
             title: "Stuur een bericht",
             "webview_height_ratio": "compact"
-          }],
+          },
+            {
+              "type":"phone_number",
+              "title":"Bellen",
+              "payload": result.phoneNumber
+            }
+          ],
         }
     });
     var messageData = {
