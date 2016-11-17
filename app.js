@@ -406,15 +406,7 @@ function onTitleProvided(senderID, messageText) {
 function onPriceProvided(senderID, messageText) {
     syiPrice = messageText;
     awaitingPrice = 0;
-    sendButtonMessage(senderID, "I think that's a fair price...shall we publish it?", [{
-        "type":"postback",
-        "title":"YES! Let's do it!",
-        "payload":"DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD"
-      }, {
-        "type":"postback",
-        "title":"No, I changed my mind",
-        "payload":"DEVELOPER_DEFINED_PAYLOAD_CANCELAD"
-      }]);
+    sendPublishButton(senderID);
 }
 /*
  * Delivery Confirmation Event
@@ -682,6 +674,37 @@ function sendButtonMessage(recipientId, message, buttons) {
       }
     }
   };  
+
+  callSendAPI(messageData);
+}
+
+function sendPublishButton(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "I think that's a fair price...shall we publish it?",
+          buttons:[
+            {
+              type: "postback",
+              url: "DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD",
+              title: "YES! Let's do it!"
+            },
+            {
+              type: "postback",
+              payload: "DEVELOPER_DEFINED_PAYLOAD_CANCELAD",
+              title: "No, I changed my mind"
+            }
+          ]
+        }
+      }
+    }
+  };
 
   callSendAPI(messageData);
 }
