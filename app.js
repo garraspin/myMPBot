@@ -271,7 +271,7 @@ function receivedMessage(event) {
     }
 
     if (messageText.indexOf("and ") === 0) {
-      var query = conversations[senderID] + ' ' + message.replace('and ', '');
+      var query = conversations[senderID] + ' ' + messageText.replace('and ', '');
       conversations[senderID] = query;
       sendMp(senderID, query, metadata);
       return;
@@ -279,7 +279,7 @@ function receivedMessage(event) {
 
 
     if (messageText.indexOf("search: ") === 0) {
-      var query = message.replace('search: ', '');
+      var query = messageText.replace('search: ', '');
       conversations[senderID] = query;
       sendMp(senderID, query, metadata);
       return;
