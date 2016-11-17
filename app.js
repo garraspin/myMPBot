@@ -273,7 +273,7 @@ function receivedMessage(event) {
     if(quickReply.payload === 'DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD'){
       //publish here
       publishApi(syiTitle, syiDescription, pictureUrl, syiPrice).then(function(data){
-        sendTextMessage(senderID, 'Here\'s your ad!' + JSON.stringify(data._links));
+        sendTextMessage(senderID, 'Here\'s your ad!' + data._links['mp:advertisement-website-link'].href);
       }).catch(function(e){
         sendTextMessage(senderID, 'Ouch! Something went wrong: ' + e);
       })
