@@ -3,6 +3,7 @@ var request = require('request-promise');
 const TOKEN = "509dca04-d7b8-493c-aec7-305343fa6ecf";
 const LIMIT = 3;
 const SEARCH_URL = "https://api.marktplaats.nl/v1/search?query=QUERY&access_token=API_TOKEN&_prettyprint&limit=LIMIT&offset=OFFSET&postCode=FILTER_POSTCODE&distance=3000CAT_ID"
+const MP_SEARCH_URL = "http://www.marktplaats.nl/z/auto-s/renault/rood.html?query=QUERYCAT_ID";
 
 var search = function(query, categoryId, page, postcode){
     var offset = (page || 0) * LIMIT;
@@ -20,7 +21,7 @@ var search = function(query, categoryId, page, postcode){
                     data = JSON.parse(data);
                     resolve({
                         totalResults: data.totalCount,
-                        url: url,
+                        url: MP_SEARCH_URL.replace(/QUERY/, query).replace(/CAT_ID/, catId),
                         results: data._embedded["mp:search-result"].map(function(result){
                             return {
                                 link: 'http://link.marktplaats.nl/' + result.itemId,
