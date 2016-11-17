@@ -26,10 +26,12 @@ var publish = function(title, description, imageUrl, price, categoryId){
             })
         }).then(function(data){
             publishPicture(data.itemId, imageUrl).then(function(){
+                console.log('publish picture:', imageUrl, data.itemId);
                 resolve(data);
             });
         }).catch(function(e){
-            reject(e)
+            console.log('something went wrong', e);
+            reject(e);
         });
     });
 };
