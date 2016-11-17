@@ -617,7 +617,7 @@ function sendMp(recipientId, message, metadata){
             elements: items
           }
         },
-        metadata: metadata
+        metadata: metadata || query
       }
     };
     callSendAPI(messageData);
