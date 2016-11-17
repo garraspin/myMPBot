@@ -594,7 +594,7 @@ function sendTotalResultButton(recipientId, message, link) {
           buttons:[{
             type: "web_url",
             url: link,
-            title: message
+            title: 'Ga naar Markplaats'
           }]
         }
       }
