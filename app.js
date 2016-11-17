@@ -23,6 +23,7 @@ var awaitingPicture = 0,
     pictureUrl = null,
     awaitingDescription = 0,
     awaitingTitle = 0,
+    awaitingPrice = 0,
     syiTitle = '',
     syiDescription = '',
     syiPrice;
