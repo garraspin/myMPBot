@@ -611,7 +611,7 @@ function sendMp(recipientId, message, metadata){
   searchApi.search(query).then(function(data){
     sendTypingOff(recipientId);
 
-    sendTotalResultButton(recipientId, 'Er zijn ' + data.totalResults + " resultaten op Marktplaats. Ga naar Marktplaats om alles te bekijken.', ,http://www.marktplaats.nl/z.html?query=" + encodeURI(query));
+    sendTotalResultButton(recipientId, 'Er zijn ' + data.totalResults + ' resultaten op Marktplaats. Ga naar Marktplaats om alles te bekijken.', 'http://www.marktplaats.nl/z.html?query=' + encodeURI(query));
 
     var items = data.results.map(function(result){
       return {
