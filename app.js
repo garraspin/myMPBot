@@ -581,14 +581,13 @@ function sendButtonMessage(recipientId) {
 }
 
 function sendMp(recipientId, message, metadata){
-  console.log('search for: ', message);
   sendTypingOn(recipientId);
   try {
   var query = message.replace('search: ', '');
   searchApi.search(query).then(function(data){
     sendTypingOff(recipientId);
 
-    sendTextMessage(recipientId, 'Er zijn ' + data.totalResults + " op Marktplaats. Ga naar Marktplaats om alles te bekijken. http://www.marktplaats.nl/z.html?query=" + encodeURI(query));
+    sendTextMessage(recipientId, 'Er zijn ' + data.totalResults + " resultaten op Marktplaats. Ga naar Marktplaats om alles te bekijken. http://www.marktplaats.nl/z.html?query=" + encodeURI(query));
 
     var items = data.results.map(function(result){
       return {
@@ -604,6 +603,7 @@ function sendMp(recipientId, message, metadata){
           }]
       }
     });
+
     var messageData = {
       recipient: {
         id: recipientId
@@ -619,6 +619,7 @@ function sendMp(recipientId, message, metadata){
         metadata: metadata || query
       }
     };
+
     callSendAPI(messageData);
   });
   } catch(e) {
@@ -860,6 +861,8 @@ function sendAccountLinking(recipientId) {
  *
  */
 function callSendAPI(messageData) {
+  console.log("Sending request to FB: ", messageData)
+
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
