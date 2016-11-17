@@ -18,7 +18,7 @@ const
   https = require('https'),  
   request = require('request'),
   searchApi = require('./search'),
-  publishApi = require('./publish'),
+  publishApi = require('./publish').publish,
   categoryApi = require('./categories');
 
 var awaitingPicture = 0,
