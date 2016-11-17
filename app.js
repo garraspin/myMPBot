@@ -692,7 +692,7 @@ function sendPublishButton(recipientId) {
           buttons:[
             {
               type: "postback",
-              url: "DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD",
+              payload: "DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD",
               title: "YES! Let's do it!"
             },
             {
