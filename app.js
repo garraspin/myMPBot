@@ -765,6 +765,9 @@ function sendTotalResultButton(recipientId, message, link) {
 }
 
 function sendMp(recipientId, query, categoryId){
+
+  console.log("query: " + query + ", categoryId: " + categoryId);
+
   sendTypingOn(recipientId);
   try {
   searchApi.search(query, categoryId).then(function(data){

@@ -30,12 +30,14 @@ var promise = new Promise(function(resolve, reject){
 });
 
 promise.then(function(cs) {
-    console.log("Call to categories successful!", cs);
+    console.log("Call to categories successful!");
     cats = cs;
 });
 
 var getCategoryId = function(query){
-    return cats.find(function(c) { return c.name.toLowerCase() === query.toLowerCase(); }, {"id": "0" }).id;
+    var cId = cats.find(function(c) { return c.name.toLowerCase() === query.toLowerCase(); }, {"id": "0" }).id
+    console.log("Cat id is ", cId);
+    return cId;
 };
 
 module.exports = {
