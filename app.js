@@ -683,26 +683,20 @@ function sendPublishButton(recipientId) {
     recipient: {
       id: recipientId
     },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "I think that's a fair price...shall we publish it?",
-          buttons:[
-            {
-              type: "postback",
-              payload: "DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD",
-              title: "YES! Let's do it!"
-            },
-            {
-              type: "postback",
-              payload: "DEVELOPER_DEFINED_PAYLOAD_CANCELAD",
-              title: "No, I changed my mind"
-            }
-          ]
+    "message":{
+      "text": "I think that's a fair price...shall we publish it?",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title": "YES! Let's do it!",
+          "payload": "DEVELOPER_DEFINED_PAYLOAD_PUBLISHAD"
+        },
+        {
+          "content_type":"text",
+          "title": "No, I changed my mind",
+          "payload": "DEVELOPER_DEFINED_PAYLOAD_CANCELAD"
         }
-      }
+      ]
     }
   };
 
