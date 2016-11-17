@@ -582,7 +582,6 @@ function sendButtonMessage(recipientId) {
 
 function sendMp(recipientId, message, metadata){
   console.log('search for: ', message);
-  console.log('metadata: ', metadata);
   sendTypingOn(recipientId);
   try {
   var query = message.replace('search: ', '');

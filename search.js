@@ -19,8 +19,6 @@ var search = function(query, page, postcode){
                     resolve({
                         totalResults: data.totalCount,
                         results: data._embedded["mp:search-result"].map(function(result){
-                            console.log("result: " + JSON.stringify(result))
-
                             return {
                                 link: 'http://link.marktplaats.nl/' + result.itemId,
                                 image: result._embedded["mp:advertisement-image"].medium.href,
