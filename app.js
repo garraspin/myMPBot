@@ -17,7 +17,8 @@ const
   express = require('express'),
   https = require('https'),  
   request = require('request'),
-  searchApi = require('./search');
+  searchApi = require('./search'),
+  awaitingPicture = 0;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -322,6 +323,9 @@ function receivedMessage(event) {
       default:
         sendTextMessage(senderID, messageText, metadata);
     }
+  } else if (messageAttachments && awaitingPicture) {
+    sendTextMessage(senderID, "Nice one! " + JSON.stringify(messageAttachments));
+    awaitingPicture = 0;
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
@@ -372,6 +376,12 @@ function receivedPostback(event) {
 
   console.log("Received postback for user %d and page %d with payload '%s' " + 
     "at %d", senderID, recipientID, payload, timeOfPostback);
+
+  if(payload === 'DEVELOPER_DEFINED_PAYLOAD_FOR_SYI'){
+    sendTextMessage(senderID, "You want to sell something? Great! Start by uploading a picture");
+    awaitingPicture = 1;
+    return;
+  }
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
