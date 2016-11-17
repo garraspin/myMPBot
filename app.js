@@ -578,16 +578,18 @@ function sendButtonMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-/*
- * Send a Structured Message (Generic Message type) using the Send API.
- *
- */
-function sendGenericMessage(recipientId) {
+function sendMp(recipientId){
   sendTypingOn(recipientId);
   searchApi.search('fiets').then(function(data){
     sendTypingOff(recipientId);
     sendTextMessage(recipientId, 'I found ' + data.totalResults);
   });
+}
+/*
+ * Send a Structured Message (Generic Message type) using the Send API.
+ *
+ */
+function sendGenericMessage(recipientId) {
   var messageData = {
     recipient: {
       id: recipientId
