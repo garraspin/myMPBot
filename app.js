@@ -261,6 +261,11 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
+    if(messageText.indexOf("search: ") === 0){
+      sendMp(senderId, messageText);
+      return;
+    }
+
     switch (messageText) {
       case 'mp':
         sendMp(senderId);
@@ -578,9 +583,9 @@ function sendButtonMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-function sendMp(recipientId){
+function sendMp(recipientId, message){
   sendTypingOn(recipientId);
-  searchApi.search('fiets').then(function(data){
+  searchApi.search(message.replace('search: ', '')).then(function(data){
     sendTypingOff(recipientId);
     sendTextMessage(recipientId, 'I found ' + data.totalResults);
   });
