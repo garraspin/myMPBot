@@ -19,7 +19,12 @@ const
   request = require('request'),
   searchApi = require('./search');
 
-var awaitingPicture = 0;
+var awaitingPicture = 0,
+    pictureUrl = null;
+    awaitingDescription = 0,
+    awaitingTitle = 0,
+    syiTitle = '',
+    syiDescription = '';
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -285,6 +290,16 @@ function receivedMessage(event) {
       return;
     }
 
+    if(messageText && awaitingDescription){
+      onDescriptionProvided(senderID, messageText);
+      return;
+    }
+
+    if(messageText && awaitingTitle){
+      onTitleProvided(senderID, messageText);
+      return;
+    }
+
     switch (messageText) {
       case 'image':
         sendImageMessage(senderID);
@@ -342,14 +357,43 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText, metadata);
     }
   } else if (messageAttachments && awaitingPicture) {
-    sendTextMessage(senderID, "Nice one! " + JSON.stringify(messageAttachments));
-    awaitingPicture = 0;
+    onPictureUploaded(senderID, messageAttachments);
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
 
+function onPictureUploaded(senderID, messageAttachments) {
+    sendTextMessage(senderID, "Nice one!");
+    sendTypingOn(senderID);
+    sendTypingOff(senderID);
+    sendTypingOn(senderID);
+    sendTextMessage(senderID, "But I'm a simple bot and I don't know what's that. Can you give me a description?");
+    pictureUrl = messageAttachments[0].payload.url;
+    awaitingDescription = 1;
+    awaitingPicture = 0;
+}
 
+function onDescriptionProvided(senderID, messageText) {
+    awaitingDescription = 0;
+    awaitingTitle = 1;
+    syiDescription = messageText;
+    sendTextMessage(senderID, "Ah now I get it!");
+    sendTypingOn(senderID);
+    sendTypingOff(senderID);
+    sendTypingOn(senderID);
+    sendTextMessage(senderID, "Can you please also give me a title?");
+}
+
+function onTitleProvided(senderID, messageText) {
+    awaitingTitle = 0;
+    syiTitle = messageText;
+    sendTextMessage(senderID, "Perfect!");
+    sendTypingOn(senderID);
+    sendTypingOff(senderID);
+    sendTypingOn(senderID);
+    sendTextMessage(senderID, "We're almost there...how much does it cost?");
+}
 /*
  * Delivery Confirmation Event
  *
