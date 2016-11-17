@@ -35,7 +35,7 @@ promise.then(function(cs) {
 });
 
 var getCategoryId = function(query){
-    return cats.find(function(c) { return c.name === query; }, {"id": "0" }).id;
+    return cats.find(function(c) { return c.name.toLowerCase() === query.toLowerCase(); }, {"id": "0" }).id;
 };
 
 module.exports = {
