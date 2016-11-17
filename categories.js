@@ -30,7 +30,7 @@ var promise = new Promise(function(resolve, reject){
 });
 
 promise.then(function(cs) {
-    console.log("Call to categories successful!");
+    console.log("Call to categories successful!", cs);
     cats = cs;
 });
 
