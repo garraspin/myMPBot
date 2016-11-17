@@ -87,7 +87,6 @@ app.get('/', function(req, res){
 app.post('/webhook', function (req, res) {
   var data = req.body;
 
-console.log('data', JSON.stringify(data));
   // Make sure this is a page subscription
   if (data.object == 'page') {
     // Iterate over each entry
@@ -98,34 +97,17 @@ console.log('data', JSON.stringify(data));
 
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function(messagingEvent) {
-
-console.log('messaging event', messagingEvent);
-
         if (messagingEvent.optin) {
-
-console.log('action:', 'optin');
           receivedAuthentication(messagingEvent);
         } else if (messagingEvent.message) {
-
-console.log('action:', 'message');
           receivedMessage(messagingEvent);
         } else if (messagingEvent.delivery) {
-
-console.log('action:', 'delivery');
           receivedDeliveryConfirmation(messagingEvent);
         } else if (messagingEvent.postback) {
-
-console.log('action:', 'postback');
           receivedPostback(messagingEvent);
         } else if (messagingEvent.read) {
-
-
-console.log('action:', 'read');
           receivedMessageRead(messagingEvent);
-        } else if (messagingEvent.account_linking) {
-
-
-console.log('action:', 'account_linking');
+        } else if (messagingEvent.account_linking) {;
           receivedAccountLink(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ", messagingEvent);
