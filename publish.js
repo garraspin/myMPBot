@@ -25,7 +25,8 @@ var publish = function(title, description, imageUrl, price, categoryId){
                 }
             })
         }).then(function(data){
-            console.log('item published:', data);
+            data = JSON.parse(data);
+            console.log('item published:', data.itemId);
             publishPicture(data.itemId, imageUrl).then(function(){
                 console.log('before publish picture:', imageUrl, data.itemId);
                 resolve(data);
@@ -54,6 +55,7 @@ var publishPicture = function(id, imageUrl){
                 "replaceAll": true
             })
         }).then(function(data){
+            data = JSON.parse(data);
             console.log('publish picture:', data);
             resolve('OK')
         }).catch(function(e){
