@@ -17,7 +17,8 @@ const
   express = require('express'),
   https = require('https'),  
   request = require('request'),
-  searchApi = require('./search');
+  searchApi = require('./search'),
+  categoryApi = require('./categories');
 
 var awaitingPicture = 0,
     pictureUrl = null,
@@ -291,10 +292,16 @@ function receivedMessage(event) {
       return;
     }
 
+    if (messageText.indexOf("with category: ") === 0) {
+      var catId = categoryApi.getCategoryId(messageText.replace('with category: ', ''))
+      sendMp(senderID, conversations[senderID], catId);
+      return;
+    }
+
     if (messageText.indexOf("and ") === 0) {
       var query = conversations[senderID] + ' ' + messageText.replace('and ', '');
       conversations[senderID] = query;
-      sendMp(senderID, query, metadata);
+      sendMp(senderID, query);
       return;
     }
 
@@ -302,7 +309,7 @@ function receivedMessage(event) {
     if (messageText.indexOf("search: ") === 0) {
       var query = messageText.replace('search: ', '');
       conversations[senderID] = query;
-      sendMp(senderID, query, metadata);
+      sendMp(senderID, query);
       return;
     }
 
@@ -741,10 +748,10 @@ function sendTotalResultButton(recipientId, message, link) {
   callSendAPI(messageData);
 }
 
-function sendMp(recipientId, query, metadata){
+function sendMp(recipientId, query, categoryId){
   sendTypingOn(recipientId);
   try {
-  searchApi.search(query).then(function(data){
+  searchApi.search(query, categoryId).then(function(data){
     sendTypingOff(recipientId);
 
     sendTotalResultButton(recipientId, 'Er zijn ' + data.totalResults + ' resultaten op Marktplaats. Ga naar Marktplaats om alles te bekijken.', 'http://www.marktplaats.nl/z.html?query=' + encodeURI(query));
@@ -775,8 +782,7 @@ function sendMp(recipientId, query, metadata){
             template_type: "generic",
             elements: items
           }
-        },
-        metadata: metadata || query
+        }
       }
     };
 
