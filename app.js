@@ -151,6 +151,8 @@ app.get('/authorize', function(req, res) {
   });
 });
 
+var conversations = {};
+
 /*
  * Verify that the callback came from Facebook. Using the App Secret from 
  * the App Dashboard, we can verify the signature that is sent with each 
@@ -263,8 +265,23 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
-    if(messageText.indexOf("search: ") === 0){
-      sendMp(senderID, messageText, metadata);
+    if (messageText === "c") { // clear
+      conversations[senderID] = '';
+      return;
+    }
+
+    if (messageText.indexOf("and ") === 0) {
+      var query = conversations[senderID] + ' ' + message.replace('and ', '');
+      conversations[senderID] = query;
+      sendMp(senderID, query, metadata);
+      return;
+    }
+
+
+    if (messageText.indexOf("search: ") === 0) {
+      var query = message.replace('search: ', '');
+      conversations[senderID] = query;
+      sendMp(senderID, query, metadata);
       return;
     }
 
@@ -615,10 +632,9 @@ function sendTotalResultButton(recipientId, message, link) {
   callSendAPI(messageData);
 }
 
-function sendMp(recipientId, message, metadata){
+function sendMp(recipientId, query, metadata){
   sendTypingOn(recipientId);
   try {
-  var query = message.replace('search: ', '');
   searchApi.search(query).then(function(data){
     sendTypingOff(recipientId);
 
