@@ -1,7 +1,6 @@
 var request = require('request-promise');
 
-// const TOKEN = "509dca04-d7b8-493c-aec7-305343fa6ecf";
-const TOKEN = "7470ca18-a3b5-4954-9c4b-2ad90d611ea3";
+const TOKEN = "40909f90-6c52-413c-93a4-2d630157be83";
 const CATS_URL = "https://api.marktplaats.nl/v1/categories?access_token=API_TOKEN"
 // const CATS_URL = "https://api.marktplaats.nl/v1/categories?access_token=509dca04-d7b8-493c-aec7-305343fa6ecf"
 
