@@ -1,7 +1,7 @@
 var request = require('request-promise');
 
 const URL = 'https://api.marktplaats.nl/v1/advertisements/';
-const TOKEN = '509dca04-d7b8-493c-aec7-305343fa6ecf';
+const TOKEN = process.env.MP_TOKEN ? process.env.MP_TOKEN : "40909f90-6c52-413c-93a4-2d630157be83";
 
 var publish = function(title, description, imageUrl, price, categoryId){
     return new Promise(function(resolve, reject){
