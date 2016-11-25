@@ -1,6 +1,6 @@
 var request = require('request-promise');
 
-const TOKEN = "40909f90-6c52-413c-93a4-2d630157be83";
+const TOKEN = process.env.MP_TOKEN ? process.env.MP_TOKEN : "40909f90-6c52-413c-93a4-2d630157be83";
 const LIMIT = 3;
 const SEARCH_URL = "https://api.marktplaats.nl/v1/search?query=QUERY&access_token=API_TOKEN&_prettyprint&limit=LIMIT&offset=OFFSET&postCode=FILTER_POSTCODE&distance=3000CAT_ID"
 const MP_SEARCH_URL = "http://www.marktplaats.nl/z/auto-s/renault/rood.html?query=QUERYCAT_ID";

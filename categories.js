@@ -1,8 +1,9 @@
 var request = require('request-promise');
 
-const TOKEN = "40909f90-6c52-413c-93a4-2d630157be83";
 const CATS_URL = "https://api.marktplaats.nl/v1/categories?access_token=API_TOKEN"
-// const CATS_URL = "https://api.marktplaats.nl/v1/categories?access_token=509dca04-d7b8-493c-aec7-305343fa6ecf"
+
+const TOKEN = process.env.MP_TOKEN ? process.env.MP_TOKEN : "40909f90-6c52-413c-93a4-2d630157be83";
+
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
